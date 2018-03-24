@@ -40,9 +40,7 @@ function getAccessToken() {
 function getTransferEligibleList(userReference) {
   return new Promise((resolve, reject) =>{
     //get bank account info by userReference,
-    getAccessToken()
-    .then(accessToken=>{
-
+    var accessToken=process.env.ACCESS_TOKEN
       var url = 'https://api.dxhackathon.com/money-movement/accounts'
       var headers = {"Content-Type": "application/json", "Authorization":"Bearer " + accessToken, "Accept": "application/json;v=0"}
       var retrievedAcct = { }
@@ -51,7 +49,6 @@ function getTransferEligibleList(userReference) {
         url: url,
         headers: headers
       })
-    })
     .then(response=>{
       let matches = response.data.accounts.filter((account)=>{
         if (account.moneyMovementAccountReferenceId == userReference) {
@@ -72,9 +69,7 @@ function getTransferEligibleList(userReference) {
 
 function scheduleTransfer(originAccountRefId, destinationAccountRefId, amount, memo = 'allowance') {
   return new Promise((resolve, reject)=>{
-
-  getAccessToken()
-  .then(accessToken=>{
+    var accessToken=process.env.ACCESS_TOKEN
     console.log('ACCESS TOKEN BOOII', accessToken)
     console.log("timestamp", moment().format("YYYY-MM-DD"));
     transferDate = moment().format("YYYY-MM-DD");
@@ -101,8 +96,8 @@ function scheduleTransfer(originAccountRefId, destinationAccountRefId, amount, m
       headers: headers,
       data: body
     })
-  })
     .then(response => {
+      console.log('resdata', response.data);
       resolve(response.data)
     })
     .catch(error => {
@@ -115,8 +110,9 @@ function scheduleTransfer(originAccountRefId, destinationAccountRefId, amount, m
 
 }
 
+scheduleTransfer('XFhWXJQOVdudjhONmdsOV7QpZE5Ba25ut5pa0N75jjoLJh=', 'YHGRB+zRxznmdsOV7QpZE5Ba25ut5nliF486mFhNgk=', 109).then(d=>{console.log('GOT DATA, ', d);})
+
 module.exports = {
-  getAccessToken,
   getTransferEligibleList,
   scheduleTransfer
  }
