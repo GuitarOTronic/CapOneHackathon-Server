@@ -15,13 +15,15 @@ class requestsModel extends Model{
                     let refs = [usersModel.one(currentReq.parent_id), usersModel.one(currentReq.child_id)]
                     return Promise.all(refs)
                         .then(refs => {
-                            let [parentRef, childRef] = refs
-                            return apiController.scheduleTransfer(parentRef, childRef, currentReq.amount, currentReq.memo)
-                                .then(transfer => {
-                                    return super.update(id, body)
-                                })
+                            let [parent, child] = refs
+                            let parentRef = parent.bank_account
+                            let childRef = child.bank_account
+                            return super.update(id, body)
                                 .then(updatedReq => {
-                                    return updatedReq
+                                    return apiController.scheduleTransfer(parentRef, childRef, updatedReq.amount, updatedReq.memo)
+                                        .then(transfer => {
+                                            return updatedReq
+                                        })
                                 })
                         })
                 } else {
