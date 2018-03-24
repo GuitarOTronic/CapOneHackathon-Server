@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
     table.integer('child_id')
     table.float('amount')
     table.string('memo')
-    table.boolean('fulfilled')
+    table.boolean('fulfilled').defaultTo(false)
   })
 };
 

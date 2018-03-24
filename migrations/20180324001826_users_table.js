@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
     table.string('username')
     table.string('password')
     table.string('user_type')
-    table.string('bank_account', 100)
+    table.string('bank_account')
   })
 };
 

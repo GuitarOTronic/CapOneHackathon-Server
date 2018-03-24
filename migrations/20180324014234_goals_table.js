@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.integer('user_id')
     table.string('type')
     table.float('amount')
-    table.boolean('accomplished')
+    table.boolean('accomplished').defaultTo(false)
 
   })
 };
