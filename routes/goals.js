@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { goalsController } = require('../controllers')
+const { goalsController }= require('../controllers')
 
 router.get('/:id', goalsController.one)
 router.post('/', goalsController.create)

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { allowancesController }= require('../controllers')
+const { allowancesController } = require('../controllers')
 
 router.get('/:id', allowancesController.one)
 router.post('/', allowancesController.create)
