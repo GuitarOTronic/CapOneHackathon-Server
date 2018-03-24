@@ -11,15 +11,15 @@ class allowancesModel extends Model{
 
     static create(body) {
         //schedule transfer job
-        // super.create(body).then(transfer => {
-        //     let id = transfer.id
-        //     let rule = new schedule.RecurrenceRule()
-        //     rule.hour(0)
-        //     rule.minute(0)
-        //     rule.dayOfWeek(transfer.weekday - 1)
+        super.create(body).then(transfer => {
+            let id = transfer.id
+            let rule = new schedule.RecurrenceRule()
+            rule.hour(0)
+            rule.minute(0)
+            rule.dayOfWeek(transfer.weekday - 1)
 
-        //     transferJobs[id] = schedule.scheduleJob(rule, )
-        // })
+            transferJobs[id] = schedule.scheduleJob(rule, )
+        })
     }
 
     static update(id, body) {

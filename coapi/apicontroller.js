@@ -26,7 +26,6 @@ function getAccessToken() {
       data: body
     }).then(response => {
       //return accessToken
-      console.log('ACCESSTOLKEINRESPONSE', response.data.access_token);
       accToke = response.data.access_token
       resolve(accToke)
     })
@@ -54,15 +53,12 @@ function getTransferEligibleList(userReference) {
       })
     })
     .then(response=>{
-      console.log('LISTRESPONSE', response.data);
       let matches = response.data.accounts.filter((account)=>{
-        console.log(userReference, account.moneyMovementAccountReferenceId)
         if (account.moneyMovementAccountReferenceId == userReference) {
           return true
         }
         return false
       })
-      console.log('matches: ', matches)
       if (matches[0]) return resolve(matches[0])
     })
     .catch(error => {
@@ -105,8 +101,6 @@ function scheduleTransfer(originAccountRefId, destinationAccountRefId, amount, m
     })
   })
     .then(response => {
-      //return accessToken
-      console.log('TRANSFERRESPONSE', response.data);
       resolve(response.data)
     })
     .catch(error => {
@@ -121,5 +115,6 @@ function scheduleTransfer(originAccountRefId, destinationAccountRefId, amount, m
 
 module.exports = {
   getAccessToken,
-  getTransferEligibleList
+  getTransferEligibleList,
+  scheduleTransfer
  }
