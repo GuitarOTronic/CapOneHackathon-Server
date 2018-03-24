@@ -38,7 +38,7 @@ function getAccessToken() {
   })
 }
 
-function getTransferEligibleList(userReference, accessToken, dataObject) {
+function getTransferEligibleList(userReference) {
   return new Promise((resolve, reject) =>{
     //get bank account info by userReference,
     getAccessToken()
@@ -55,13 +55,15 @@ function getTransferEligibleList(userReference, accessToken, dataObject) {
     })
     .then(response=>{
       console.log('LISTRESPONSE', response.data);
-      response.data.accounts.map((account)=>{
+      let matches = response.data.accounts.filter((account)=>{
+        console.log(userReference, account.moneyMovementAccountReferenceId)
         if (account.moneyMovementAccountReferenceId == userReference) {
-          retrievedAcct = account
-          dataObject.account = retrievedAcct
-          resolve(dataObject)
+          return true
         }
+        return false
       })
+      console.log('matches: ', matches)
+      if (matches[0]) return resolve(matches[0])
     })
     .catch(error => {
       console.log('ERROR', error);
@@ -72,7 +74,7 @@ function getTransferEligibleList(userReference, accessToken, dataObject) {
   })
 }
 
-function scheduleTransfer() {
+function scheduleTransfer(originAccountRefId, destinationAccountRefId, amount, memo = 'allowance') {
   return new Promise((resolve, reject)=>{
 
   getAccessToken()
@@ -83,9 +85,9 @@ function scheduleTransfer() {
 
     var url = 'https://api.dxhackathon.com/money-movement/transfer-requests'
     var body = {
-      "originMoneyMovementAccountReferenceId": "YHGRB+zRxznmdsOV7QpZE5Ba25ut5nliF486mFhNgk=",
-      "destinationMoneyMovementAccountReferenceId": "XFhWXJQOVdudjhONmdsOV7QpZE5Ba25ut5pa0N75jjoLJh=",
-      "transferAmount": 10,
+      "originMoneyMovementAccountReferenceId": originAccountRefId,
+      "destinationMoneyMovementAccountReferenceId": destinationAccountRefId,
+      "transferAmount": amount,
       "currencyCode": "USD",
       "transferDate": transferDate,
       "memo": "for investments",

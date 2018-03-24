@@ -3,7 +3,7 @@ const usersModel = require(`../models/users.js`)
 const allowancesModel = require(`../models/allowances.js`)
 const requestsModel = require(`../models/requests.js`)
 const goalsModel = require(`../models/goals.js`)
-const apicontroller = require(`../coapi/apicontroller.js`);
+const apiController = require(`../coapi/apicontroller.js`);
 
 class usersController extends Controller {
     constructor () {
@@ -15,12 +15,13 @@ class usersController extends Controller {
             .then(user => {
                 let userObject = user
                 let match = user.user_type === 'parent' ? ['parent_id', user.id] : ['child_id', user.id]
-                let userData = [allowancesModel.allMatchingWhere(...match), requestsModel.allMatchingWhere(...match), goalsModel.allMatchingWhere('user_id', user.id)]
+                let userData = [allowancesModel.allMatchingWhere(...match), requestsModel.allMatchingWhere(...match), goalsModel.allMatchingWhere('user_id', user.id), apiController.getTransferEligibleList(userObject.bank_account)]
                 return Promise.all(userData)
                     .then(data => {
                         userObject.allowances = user.user_type === 'parent' ? [] : data[0]
                         userObject.requests = data[1]
                         userObject.goals = data[2]
+                        userObject.account = data[3]
                         return userObject
                     })
             })
