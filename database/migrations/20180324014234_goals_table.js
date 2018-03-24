@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
     table.float('amount')
     table.boolean('accomplished').defaultTo(false)
 
+    table.foreign('user_id').references('users.id')
   })
 };
 

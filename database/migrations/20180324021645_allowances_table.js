@@ -6,6 +6,9 @@ exports.up = function(knex, Promise) {
     table.integer('child_id')
     table.float('amount')
     table.integer('weekday')
+
+    table.foreign('parent_id').references('users.id')
+    table.foreign('child_id').references('users.id')
   })
 };
 

@@ -1,22 +1,18 @@
-// Update with your config settings.
+const path = require('path')
 
 module.exports = {
 
   development: {
     client: 'postgresql',
-    connection: 'postgres://localhost:5432/co_de'
-  }
-  // {
-  //   client: 'pg',
-  //   connection: 'postgres://localhost:5432/industry_dev',
-  //   migrations: {
-  //    directory: path.join(__dirname, 'db', 'migrations')
-  //  },
-  //  seeds: {
-  //    directory: path.join(__dirname, 'db', 'seeds')
-  //  }
-  // }
-  ,
+    connection: 'postgres://localhost:5432/co_de',
+    migrations: {
+      directory: path.join(__dirname, 'database', 'migrations')
+    },
+    seeds: {
+      directory: path.join(__dirname, 'database', 'seeds')
+    }
+  },
+
   staging: {
     client: 'postgresql',
     connection: {
@@ -29,7 +25,10 @@ module.exports = {
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
+      directory: path.join(__dirname, 'database', 'migrations')
+    },
+    seeds: {
+      directory: path.join(__dirname, 'database', 'seeds')
     }
   },
 
@@ -45,7 +44,10 @@ module.exports = {
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
+      directory: path.join(__dirname, 'database', 'migrations')
+    },
+    seeds: {
+      directory: path.join(__dirname, 'database', 'seeds')
     }
   }
 
