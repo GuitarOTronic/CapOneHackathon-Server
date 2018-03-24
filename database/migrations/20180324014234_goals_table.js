@@ -9,8 +9,8 @@ exports.up = function(knex, Promise) {
 
     table.foreign('user_id').references('users.id')
   })
-};
+}
 
 exports.down = function(knex, Promise) {
   knex.schema.dropTable('goals')
-};
+}

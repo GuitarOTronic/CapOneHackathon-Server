@@ -9,8 +9,8 @@ exports.up = function(knex, Promise) {
     table.string('user_type')
     table.string('bank_account')
   })
-};
+}
 
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable('users')
-};
+}
