@@ -4,10 +4,8 @@ exports.seed = function(knex, Promise) {
   return knex('requests').del()
     .then(function () {
       // Inserts seed entries
-      // return knex('requests').insert([
-      //   {id: 1, colName: 'rowValue1'},
-      //   {id: 2, colName: 'rowValue2'},
-      //   {id: 3, colName: 'rowValue3'}
-      // ])
+      return knex('requests').insert([
+        { id: 1, parent_id: 1, child_id: 2, amount: 250.00, memo: 'I need a Snickers', status: 'pending' }
+      ])
     })
 }

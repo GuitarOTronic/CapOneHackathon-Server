@@ -4,10 +4,8 @@ exports.seed = function(knex, Promise) {
   return knex('allowances').del()
     .then(function () {
       // Inserts seed entries
-      // return knex('allowances').insert([
-      //   {id: 1, colName: 'rowValue1'},
-      //   {id: 2, colName: 'rowValue2'},
-      //   {id: 3, colName: 'rowValue3'}
-      // ])
+      return knex('allowances').insert([
+        { id: 1, parent_id: 1, child_id: 2, amount: 5.00, weekday: 1 }
+      ])
     })
 }

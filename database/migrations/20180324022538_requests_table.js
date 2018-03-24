@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
     table.integer('child_id')
     table.float('amount')
     table.string('memo')
-    table.boolean('fulfilled').defaultTo(false)
+    table.string('status').defaultTo('pending')
 
     table.foreign('parent_id').references('users.id')
     table.foreign('child_id').references('users.id')
