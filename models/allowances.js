@@ -1,6 +1,7 @@
 const Model = require('./model.js')(`allowances`)
 const schedule = require('node-schedule')
-
+const apiController = require('../coapi/apicontroller.js')
+const usersModel = require('./users.js')
 
 class allowancesModel extends Model{
     constructor() {
@@ -11,24 +12,45 @@ class allowancesModel extends Model{
 
     static create(body) {
         //schedule transfer job
-        // super.create(body).then(transfer => {
-        //     let id = transfer.id
-        //     let rule = new schedule.RecurrenceRule()
-        //     rule.hour(0)
-        //     rule.minute(0)
-        //     rule.dayOfWeek(transfer.weekday - 1)
+        return super.create(body).then(transfer => {
+            let refs = [usersModel.one(transfer.parent_id), usersModel.one(transfer.child_id)]
+            return Promise.all(refs)
+            .then(refs => {
+                let [parentRef, childRef] = refs
 
-        //     transferJobs[id] = schedule.scheduleJob(rule, )
-        // })
+                let id = transfer.id
+                let rule = new schedule.RecurrenceRule()
+                rule.hour(0)
+                rule.minute(0)
+                rule.dayOfWeek(transfer.weekday - 1)
+
+                transferJobs[id] = schedule.scheduleJob(rule, apiController.scheduleTransfer(parentRef, childRef, transfer.amount))
+                return transfer
+            })
+        })
     }
 
     static update(id, body) {
-        //update transfer schedule
-        return super.update(id, body)
+        return super.update(id, body).then(transfer => {
+            let refs = [usersModel.one(transfer.parent_id), usersModel.one(transfer.child_id)]
+            return Promise.all(refs)
+                .then(refs => {
+                    let [parentRef, childRef] = refs
+
+                    let id = transfer.id
+                    let rule = new schedule.RecurrenceRule()
+                    rule.hour(0)
+                    rule.minute(0)
+                    rule.dayOfWeek(transfer.weekday - 1)
+
+                    transferJobs[id].reschedule(rule, apiController.scheduleTransfer(parentRef, childRef, transfer.amount))
+                    return transfer
+                })
+        })
     }
 
     static destroy(id) {
-        //delete transfer job
+            this.transferJobs[id].cancel()
         return super.destroy(id)
     }
 
