@@ -1,7 +1,13 @@
 const Model = require('./model.js')(`goals`)
 
 class goalsModel extends Model{
-    //insert goals-specific model methods here
+    constructor () {
+        super()
+    }
+    
+    static allMatchingWhere(key, value) {
+        return super.allMatchingFrom('goals', key, value)
+    }
 }
 
 module.exports = goalsModel

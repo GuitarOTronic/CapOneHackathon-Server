@@ -1,7 +1,13 @@
 const Model = require('./model.js')(`users`)
 
 class usersModel extends Model{
-    //insert users-specific model methods here
+    constructor() {
+        super()
+    }
+
+    static allMatchingWhere(key, value) {
+        return super.allMatchingFrom('users', key, value)
+    }
 }
 
 module.exports = usersModel

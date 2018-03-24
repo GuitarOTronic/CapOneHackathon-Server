@@ -9,7 +9,7 @@ const path = require('path')
 
 const {
     usersRouter: users,
-    allowanceRouter: allowance,
+    allowancesRouter: allowances,
     requestsRouter: requests,
     goalsRouter: goals,
 } = require('./routes')
@@ -19,7 +19,7 @@ app.use(bodyParser.json())
 app.use(morgan('dev'))
 
 app.use('/api/users', users)
-app.use('/api/allowance', allowance)
+app.use('/api/allowances', allowances)
 app.use('/api/requests', requests)
 app.use('/api/goals', goals)
 

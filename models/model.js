@@ -21,6 +21,10 @@ module.exports = (tableName) => {
         static destroy(id) {
             return db(tableName).del().where({ id }).returning('*').then(([res]) => res)
         }
+
+        static allMatchingFrom(tableName, key, value) {
+            return db(tableName).where({ [key]: value })
+        }
     }
 
     return Model
