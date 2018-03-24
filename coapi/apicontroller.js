@@ -75,7 +75,7 @@ function scheduleTransfer(originAccountRefId, destinationAccountRefId, amount, m
 
   getAccessToken()
   .then(accessToken=>{
-
+    console.log('ACCESS TOKEN BOOII', accessToken)
     console.log("timestamp", moment().format("YYYY-MM-DD"));
     transferDate = moment().format("YYYY-MM-DD");
 
@@ -86,10 +86,12 @@ function scheduleTransfer(originAccountRefId, destinationAccountRefId, amount, m
       "transferAmount": amount,
       "currencyCode": "USD",
       "transferDate": transferDate,
-      "memo": "for investments",
+      "memo": memo,
       "transferType": "Internal",
       "frequency": "OneTime"
     }
+
+    console.log('BODY', body)
 
 
     var headers = {"Content-Type": "application/json", "Authorization": "Bearer "+ accessToken, "Accept": "application/json;v=0"}
