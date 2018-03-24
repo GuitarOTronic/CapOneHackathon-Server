@@ -3,6 +3,7 @@ const usersModel = require(`../models/users.js`)
 const allowancesModel = require(`../models/allowances.js`)
 const requestsModel = require(`../models/requests.js`)
 const goalsModel = require(`../models/goals.js`)
+const apicontroller = require(`../coapi/apicontroller.js`);
 
 class usersController extends Controller {
     constructor () {
